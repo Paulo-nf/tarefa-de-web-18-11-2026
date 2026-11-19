@@ -79,7 +79,6 @@ export class RegistrationService {
   }
 
   async delete(id: number): Promise<void> {
-    // Trecho gerado por IA ..!
     const registration = await this.registrationRepo.findById(id);
     if (!registration) {
       throw new AppError(404, 'INSCRICAO_NAO_ENCONTRADA', 'Inscrição não encontrada.');
