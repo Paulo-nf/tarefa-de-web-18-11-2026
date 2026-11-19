@@ -5,10 +5,9 @@ export class SessionController {
   private service = new SessionService();
 
   list = async (req: Request, res: Response) => {
-    const data = await this.service.list(req.query);
+    let { eventId, category, status, title } = req.query;
+    if(eventId) eventId = Number(eventId);
+    const data = await this.service.list({ eventId, category, status, title });
     res.json(data);
   };
 };
-
-//const { page, limit, status } = req.query; // e.g., page="2" from /users?page=2
-//const data = await this.service.list({ page, limit, status });
