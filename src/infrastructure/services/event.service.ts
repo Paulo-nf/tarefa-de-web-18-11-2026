@@ -24,7 +24,6 @@ export class EventService {
       eventId: event.id,
       capacity,
       occupied,
-      available,
     }
   }
 }

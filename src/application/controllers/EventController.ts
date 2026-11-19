@@ -5,10 +5,10 @@ export class EventController {
   private service = new EventService();
 
   occupancy = async (req: Request, res: Response): Promise<void> => {
-    // TODO: validar entrada, chamar o service e devolver a resposta HTTP.
-    res.status(501).json({
-      error: 'NOT_IMPLEMENTED',
-      message: 'Endpoint ainda não implementado.'
-    });
+    const eventId = Number(req.params.eventId);
+
+    const result = await this.service.getOccupancy(eventId);
+
+    res.status(200).json(result);
   };
 }

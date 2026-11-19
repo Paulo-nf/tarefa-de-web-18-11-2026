@@ -11,8 +11,7 @@ import { AppError } from '../../shared/errors/AppError.js';
 
 export class EventRepository {
   async findById(id: number): Promise<Event | null> {
-    // TODO: implementar operação de persistência.
-    throw new AppError(501, 'NOT_IMPLEMENTED', 'Operação ainda não implementada.');
+    return prisma.event.findUnique({ where: { id } })
   }
 
   async sessionsWithCounts(eventId: number): Promise<SessionWithCount[]> {
