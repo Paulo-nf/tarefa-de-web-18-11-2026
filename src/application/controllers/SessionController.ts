@@ -4,11 +4,11 @@ import { SessionService } from '../../infrastructure/services/session.service.js
 export class SessionController {
   private service = new SessionService();
 
-  list = async (req: Request, res: Response): Promise<void> => {
-    // TODO: validar entrada, chamar o service e devolver a resposta HTTP.
-    res.status(501).json({
-      error: 'NOT_IMPLEMENTED',
-      message: 'Endpoint ainda não implementado.'
-    });
+  list = async (req: Request, res: Response) => {
+    const data = await this.service.list(req.query);
+    res.json(data);
   };
-}
+};
+
+//const { page, limit, status } = req.query; // e.g., page="2" from /users?page=2
+//const data = await this.service.list({ page, limit, status });

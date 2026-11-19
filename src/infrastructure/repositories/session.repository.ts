@@ -11,12 +11,10 @@ import { AppError } from '../../shared/errors/AppError.js';
 
 export class SessionRepository {
   async list(filters: SessionFilters): Promise<Session[]> {
-    // TODO: implementar operação de persistência.
-    throw new AppError(501, 'NOT_IMPLEMENTED', 'Operação ainda não implementada.');
+    return prisma.session.findMany({ where: filters });
   }
 
   async findById(id: number): Promise<Session | null> {
-    // TODO: implementar operação de persistência.
-    throw new AppError(501, 'NOT_IMPLEMENTED', 'Operação ainda não implementada.');
+    return prisma.session.findUnique({ where: { id } });
   }
 }

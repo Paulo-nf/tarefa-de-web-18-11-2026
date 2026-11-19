@@ -7,11 +7,6 @@ export class SessionService {
   private repo = new SessionRepository();
 
   async list(filters: SessionFilters): Promise<Session[]> {
-    // TODO: implementar a funcionalidade e as regras de negócio aplicáveis.
-    throw new AppError(
-      501,
-      'NOT_IMPLEMENTED',
-      'Funcionalidade ainda não implementada.'
-    );
+    return this.repo.list(filters)
   }
 }
