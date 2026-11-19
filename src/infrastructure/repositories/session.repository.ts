@@ -11,7 +11,15 @@ import { AppError } from '../../shared/errors/AppError.js';
 
 export class SessionRepository {
   async list(filters: SessionFilters): Promise<Session[]> {
-    return prisma.session.findMany({ where: filters });
+    return prisma.session.findMany({ where: {
+                                        AND: [
+                                        { eventId: filters.eventID },
+                                        { category: filters.category },
+                                        { status: filters.status },
+                                        { title: { contains: filters.title } }
+                                        ]
+                                            }
+                                    });
   }
 
   async findById(id: number): Promise<Session | null> {
