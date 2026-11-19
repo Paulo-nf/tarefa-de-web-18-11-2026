@@ -79,11 +79,11 @@ export class RegistrationService {
   }
 
   async delete(id: number): Promise<void> {
-    // TODO: implementar a funcionalidade e as regras de negócio aplicáveis.
-    throw new AppError(
-      501,
-      'NOT_IMPLEMENTED',
-      'Funcionalidade ainda não implementada.'
-    );
+    // Trecho gerado por IA ..!
+    const registration = await this.registrationRepo.findById(id);
+    if (!registration) {
+      throw new AppError(404, 'INSCRICAO_NAO_ENCONTRADA', 'Inscrição não encontrada.');
+    }
+    await this.registrationRepo.delete(id);
   }
 }
