@@ -15,7 +15,14 @@ export class EventRepository {
   }
 
   async sessionsWithCounts(eventId: number): Promise<SessionWithCount[]> {
-    // TODO: implementar operação de persistência.
-    throw new AppError(501, 'NOT_IMPLEMENTED', 'Operação ainda não implementada.');
+    return prisma.session.findMany({
+      where: { eventId },
+      include: {
+        _count: {
+          select: { registrations: true },
+        },
+      },
+      orderBy: { id: 'asc' },
+    });
   }
 }
