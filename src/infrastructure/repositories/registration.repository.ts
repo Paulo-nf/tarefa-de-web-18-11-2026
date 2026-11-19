@@ -11,13 +11,16 @@ import { AppError } from '../../shared/errors/AppError.js';
 
 export class RegistrationRepository {
   async findById(id: number): Promise<RegistrationWithSession | null> {
-    // TODO: implementar operação de persistência.
-    throw new AppError(501, 'NOT_IMPLEMENTED', 'Operação ainda não implementada.');
+    return prisma.registration.findUnique({
+      where: { id },
+      include: { session: true },
+    });
   }
 
   async findAttendee(id: number): Promise<Attendee | null> {
-    // TODO: implementar operação de persistência.
-    throw new AppError(501, 'NOT_IMPLEMENTED', 'Operação ainda não implementada.');
+    return prisma.attendee.findUnique({
+      where: { id },
+    });
   }
 
   async findDuplicate(
@@ -25,13 +28,21 @@ export class RegistrationRepository {
     sessionId: number,
     excludeId?: number
   ): Promise<Registration | null> {
-    // TODO: implementar operação de persistência.
-    throw new AppError(501, 'NOT_IMPLEMENTED', 'Operação ainda não implementada.');
+    return prisma.registration.findFirst({
+      where: {
+        attendeeId,
+        sessionId,
+        ...(excludeId !== undefined && { id: { not: excludeId } }),
+      },
+    });
   }
 
   async countForSession(sessionId: number): Promise<number> {
-    // TODO: implementar operação de persistência.
-    throw new AppError(501, 'NOT_IMPLEMENTED', 'Operação ainda não implementada.');
+    return prisma.registration.count({
+      where: {
+        sessionId,
+      },
+    });
   }
 
   async findConflict(
@@ -40,22 +51,42 @@ export class RegistrationRepository {
     endAt: Date,
     excludeId?: number
   ): Promise<Registration | null> {
-    // TODO: implementar operação de persistência.
-    throw new AppError(501, 'NOT_IMPLEMENTED', 'Operação ainda não implementada.');
+    return prisma.registration.findFirst({
+      where: {
+        attendeeId,
+        ...(excludeId !== undefined && { id: { not: excludeId } }),
+        session: {
+          startAt: { lt: endAt },
+          endAt: { gt: startAt },
+        },
+      },
+    });
   }
 
   async create(data: CreateRegistration): Promise<Registration> {
-    // TODO: implementar operação de persistência.
-    throw new AppError(501, 'NOT_IMPLEMENTED', 'Operação ainda não implementada.');
+    return prisma.registration.create({ data });
   }
 
   async update(id: number, data: UpdateRegistration): Promise<Registration> {
-    // TODO: implementar operação de persistência.
-    throw new AppError(501, 'NOT_IMPLEMENTED', 'Operação ainda não implementada.');
+    return prisma.registration.update({
+      where: { id },
+      data,
+    });
   }
 
   async delete(id: number): Promise<void> {
-    // TODO: implementar operação de persistência.
-    throw new AppError(501, 'NOT_IMPLEMENTED', 'Operação ainda não implementada.');
+    await prisma.registration.delete({
+      where: { id },
+    });
+  }
+
+  async countByEventId(eventId: number): Promise<number> {
+    return prisma.registration.count({
+      where: {
+        session: {
+          eventId,
+        },
+      },
+    });
   }
 }
