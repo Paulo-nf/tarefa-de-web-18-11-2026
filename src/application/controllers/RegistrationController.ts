@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 import { RegistrationService } from '../../infrastructure/services/registration.service.js';
 import { createRegistrationSchema as createRegistration } from '../validators/registration.schemas.js';
-import { registrationId } from '../validators/registration.schemas.js';
+import { registrationId, updateRegistrationSchema } from '../validators/registration.schemas.js';
 
 export class RegistrationController {
   private service = new RegistrationService();
@@ -27,11 +27,10 @@ export class RegistrationController {
   };
 
   update = async (req: Request, res: Response): Promise<void> => {
-    // TODO: validar entrada, chamar o service e devolver a resposta HTTP.
-    res.status(501).json({
-      error: 'NOT_IMPLEMENTED',
-      message: 'Endpoint ainda não implementado.'
-    });
+    const { id } = registrationId.parse(req.params);
+    const data = updateRegistrationSchema.parse(req.body);
+    const registration = await this.service.update(id, data);
+    res.status(200).json(registration);
   };
 
   delete = async (req: Request, res: Response): Promise<void> => {
